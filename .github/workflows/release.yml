@@ -59,6 +59,6 @@ jobs:
           host: '0.tcp.jp.ngrok.io'
           port: 10926
           user: 'github'
-          pass: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           local: "./target/JMusicBot-Snapshot-All.jar"
           remote: /srv/discord_bot/MusicBOT/
