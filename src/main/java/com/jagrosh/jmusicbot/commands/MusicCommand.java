@@ -94,6 +94,9 @@ public abstract class MusicCommand extends Command
                 }
             }
         }
+
+        bot.comandChannels.remove(event.getGuild());
+        bot.comandChannels.put(event.getGuild(), event.getTextChannel());
         
         doCommand(event);
     }

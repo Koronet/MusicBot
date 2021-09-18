@@ -15,6 +15,7 @@
  */
 package com.jagrosh.jmusicbot;
 
+import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
@@ -29,6 +30,8 @@ import java.util.Objects;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 /**
  *
@@ -50,6 +53,8 @@ public class Bot
     private boolean shuttingDown = false;
     private JDA jda;
     private GUI gui;
+
+    public final HashMap<Guild, TextChannel> comandChannels = new HashMap<>();
     
     public Bot(EventWaiter waiter, BotConfig config, SettingsManager settings)
     {
@@ -148,8 +153,7 @@ public class Bot
         threadpool.shutdownNow();
         if(jda.getStatus()!=JDA.Status.SHUTTING_DOWN)
         {
-            jda.getGuilds().stream().forEach(g -> 
-            {
+            for (Guild g : jda.getGuilds()){
                 g.getAudioManager().closeAudioConnection();
                 AudioHandler ah = (AudioHandler)g.getAudioManager().getSendingHandler();
                 if(ah!=null)
@@ -158,7 +162,8 @@ public class Bot
                     ah.getPlayer().destroy();
                     nowplaying.updateTopic(g.getIdLong(), ah, true);
                 }
-            });
+            }
+
             jda.shutdown();
         }
         if(gui!=null)

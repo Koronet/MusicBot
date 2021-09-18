@@ -17,7 +17,11 @@ package com.jagrosh.jmusicbot.commands.owner;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jmusicbot.Bot;
+import com.jagrosh.jmusicbot.audio.AudioHandler;
 import com.jagrosh.jmusicbot.commands.OwnerCommand;
+import net.dv8tion.jda.api.entities.Guild;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -39,7 +43,19 @@ public class ShutdownCmd extends OwnerCommand
     @Override
     protected void execute(CommandEvent event)
     {
-        event.replyWarning("Shutting down...");
-        bot.shutdown();
+        for (Guild g : event.getJDA().getGuilds()){
+            AudioHandler ah = (AudioHandler)g.getAudioManager().getSendingHandler();
+            if(ah!=null)
+            {
+                if (ah.isMusicPlaying(event.getJDA())){
+                    bot.comandChannels.get(g).sendMessage("アップデート反映のため3秒後に再起動を行います。\n再生中に申し訳ありませんが、ご協力よろしくおねがいします。\nアップデートの詳細についてはサポートサーバーをご覧ください。\nhttps://discord.gg/Vka9uXU35H").complete();
+                }
+            }
+        }
+
+        bot.getThreadpool().schedule(() -> {
+            event.replyWarning("Shutting down...");
+            bot.shutdown();
+        },3, TimeUnit.SECONDS);
     }
 }
