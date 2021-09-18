@@ -135,14 +135,6 @@ public class NowplayingHandler
     // "event"-based methods
     public void onTrackUpdate(long guildId, AudioTrack track, AudioHandler handler)
     {
-        // update bot status if applicable
-        if(bot.getConfig().getSongInStatus())
-        {
-            if(track!=null && bot.getJDA().getGuilds().stream().filter(g -> g.getSelfMember().getVoiceState().inVoiceChannel()).count()<=1)
-                bot.getJDA().getPresence().setActivity(Activity.listening(track.getInfo().title));
-            else
-                bot.resetGame();
-        }
         
         // update channel topic if applicable
         updateTopic(guildId, handler, false);

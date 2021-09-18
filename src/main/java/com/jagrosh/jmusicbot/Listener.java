@@ -84,6 +84,8 @@ public class Listener extends ListenerAdapter
                 }
             }, 0, 24, TimeUnit.HOURS);
         }
+
+        event.getJDA().getPresence().setActivity(bot.genActivity());
     }
     
     @Override

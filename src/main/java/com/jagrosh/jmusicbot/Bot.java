@@ -36,6 +36,8 @@ import net.dv8tion.jda.api.entities.Guild;
  */
 public class Bot
 {
+    public static Bot INSTANCE;
+
     private final EventWaiter waiter;
     private final ScheduledExecutorService threadpool;
     private final BotConfig config;
@@ -51,6 +53,7 @@ public class Bot
     
     public Bot(EventWaiter waiter, BotConfig config, SettingsManager settings)
     {
+        this.INSTANCE = this;
         this.waiter = waiter;
         this.config = config;
         this.settings = settings;
@@ -116,11 +119,25 @@ public class Bot
             threadpool.submit(() -> guild.getAudioManager().closeAudioConnection());
     }
     
-    public void resetGame()
+    public Activity genActivity()
     {
-        Activity game = config.getGame()==null || config.getGame().getName().equalsIgnoreCase("none") ? null : config.getGame();
-        if(!Objects.equals(jda.getPresence().getActivity(), game))
-            jda.getPresence().setActivity(game);
+        if (config.getGame()==null || config.getGame().equalsIgnoreCase("none")){
+            return null;
+        } else {
+            String game = config.getGame()
+                    .replace("{serverCount}", String.valueOf(jda.getGuilds().size()))
+                    .replace("{memberCount}", getMemberCount().toString());
+
+            return Activity.playing(game);
+        }
+    }
+
+    public Long getMemberCount() {
+        Long count = 0L;
+        for (Guild g : jda.getGuilds()){
+            count += g.getMemberCount();
+        }
+        return count;
     }
 
     public void shutdown()

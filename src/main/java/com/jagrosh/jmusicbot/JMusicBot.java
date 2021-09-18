@@ -141,13 +141,8 @@ public class JMusicBot
             cb.setStatus(config.getStatus());
         if(config.getGame()==null)
             cb.useDefaultGame();
-        else if(config.getGame().getName().equalsIgnoreCase("none"))
-        {
-            cb.setActivity(null);
-            nogame = true;
-        }
         else
-            cb.setActivity(config.getGame());
+            cb.setActivity(Activity.playing("Loading..."));
         
         if(!prompt.isNoGUI())
         {

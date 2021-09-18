@@ -15,6 +15,7 @@
  */
 package com.jagrosh.jmusicbot.utils;
 
+import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.JMusicBot;
 import com.jagrosh.jmusicbot.entities.Prompt;
 import java.io.*;
@@ -23,6 +24,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import okhttp3.*;
@@ -105,36 +108,6 @@ public class OtherUtil
         }
         catch(IOException | IllegalArgumentException ignore) {}
         return null;
-    }
-    
-    /**
-     * Parses an activity from a string
-     * 
-     * @param game the game, including the action such as 'playing' or 'watching'
-     * @return the parsed activity
-     */
-    public static Activity parseGame(String game)
-    {
-        if(game==null || game.trim().isEmpty() || game.trim().equalsIgnoreCase("default"))
-            return null;
-        String lower = game.toLowerCase();
-        if(lower.startsWith("playing"))
-            return Activity.playing(makeNonEmpty(game.substring(7).trim()));
-        if(lower.startsWith("listening to"))
-            return Activity.listening(makeNonEmpty(game.substring(12).trim()));
-        if(lower.startsWith("listening"))
-            return Activity.listening(makeNonEmpty(game.substring(9).trim()));
-        if(lower.startsWith("watching"))
-            return Activity.watching(makeNonEmpty(game.substring(8).trim()));
-        if(lower.startsWith("streaming"))
-        {
-            String[] parts = game.substring(9).trim().split("\\s+", 2);
-            if(parts.length == 2)
-            {
-                return Activity.streaming(makeNonEmpty(parts[1]), "https://twitch.tv/"+parts[0]);
-            }
-        }
-        return Activity.playing(game);
     }
    
     public static String makeNonEmpty(String str)

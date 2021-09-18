@@ -41,11 +41,10 @@ public class BotConfig
     
     private Path path = null;
     private String token, prefix, altprefix, helpWord, playlistsFolder,
-            successEmoji, warningEmoji, errorEmoji, loadingEmoji, searchingEmoji;
+            successEmoji, warningEmoji, errorEmoji, loadingEmoji, searchingEmoji, game;
     private boolean stayInChannel, songInGame, npImages, updatealerts, useEval, dbots;
     private long owner, maxSeconds, aloneTimeUntilStop;
     private OnlineStatus status;
-    private Activity game;
     private Config aliases, transforms;
 
     private boolean valid = false;
@@ -86,7 +85,7 @@ public class BotConfig
             errorEmoji = config.getString("error");
             loadingEmoji = config.getString("loading");
             searchingEmoji = config.getString("searching");
-            game = OtherUtil.parseGame(config.getString("game"));
+            game = config.getString("game");
             status = OtherUtil.parseStatus(config.getString("status"));
             stayInChannel = config.getBoolean("stayinchannel");
             songInGame = config.getBoolean("songinstatus");
@@ -241,7 +240,7 @@ public class BotConfig
         return searchingEmoji;
     }
     
-    public Activity getGame()
+    public String getGame()
     {
         return game;
     }
