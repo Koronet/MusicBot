@@ -82,11 +82,11 @@ public class JMusicBot
                                 RECOMMENDED_PERMS);
         aboutCommand.setIsAuthor(false);
         aboutCommand.setReplacementCharacter("\uD83C\uDFB6"); // 🎶
-        
+
         // set up the command client
         CommandClientBuilder cb = new CommandClientBuilder()
-                .setPrefix(config.getPrefix())
-                .setAlternativePrefix(config.getAltPrefix())
+//                .setPrefix(config.getPrefix())
+//                .setAlternativePrefix(config.getAltPrefix())
                 .setOwnerId(Long.toString(config.getOwnerId()))
                 .setEmojis(config.getSuccess(), config.getWarning(), config.getError())
                 .setHelpWord(config.getHelp())
@@ -129,7 +129,8 @@ public class JMusicBot
                         new SetgameCmd(bot),
                         new SetnameCmd(bot),
                         new SetstatusCmd(bot),
-                        new ShutdownCmd(bot)
+                        new ShutdownCmd(bot),
+                        new ReloadCmd(bot)
                 );
         if(config.useEval())
             cb.addCommand(new EvalCmd(bot));
