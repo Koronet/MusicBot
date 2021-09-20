@@ -18,6 +18,8 @@ package com.jagrosh.jmusicbot.settings;
 import com.jagrosh.jdautilities.command.GuildSettingsProvider;
 import java.util.Collection;
 import java.util.Collections;
+
+import com.jagrosh.jmusicbot.Bot;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -117,20 +119,20 @@ public class Settings implements GuildSettingsProvider
         return repeatMode;
     }
     
-    public String getPrefix()
-    {
-        return prefix;
-    }
-    
     public double getSkipRatio()
     {
         return skipRatio;
     }
-    
+
+    public String getPrefix()
+    {
+        return prefix == null ? Bot.INSTANCE.getConfig().getPrefix() : prefix;
+    }
+
     @Override
     public Collection<String> getPrefixes()
     {
-        return prefix == null ? Collections.EMPTY_SET : Collections.singleton(prefix);
+        return prefix == null ? Collections.singleton(Bot.INSTANCE.getConfig().getPrefix()) : Collections.singleton(prefix);
     }
     
     // Setters
