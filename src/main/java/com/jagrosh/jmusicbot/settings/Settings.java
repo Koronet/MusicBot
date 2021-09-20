@@ -118,7 +118,7 @@ public class Settings implements GuildSettingsProvider
     {
         return repeatMode;
     }
-    
+
     public double getSkipRatio()
     {
         return skipRatio;
