@@ -53,6 +53,59 @@ public class BotConfig
     {
         this.prompt = prompt;
     }
+
+    public void reload() {
+        valid = false;
+
+        // read config from file
+        try
+        {
+            // get the path to the config, default config.txt
+            path = OtherUtil.getPath(System.getProperty("config.file", System.getProperty("config", "config.txt")));
+            if(path.toFile().exists())
+            {
+                if(System.getProperty("config.file") == null)
+                    System.setProperty("config.file", System.getProperty("config", "config.txt"));
+                ConfigFactory.invalidateCaches();
+            }
+
+            // load in the config file, plus the default values
+            //Config config = ConfigFactory.parseFile(path.toFile()).withFallback(ConfigFactory.load());
+            Config config = ConfigFactory.load();
+
+            // set values
+            token = config.getString("token");
+            prefix = config.getString("prefix");
+            altprefix = config.getString("altprefix");
+            helpWord = config.getString("help");
+            owner = config.getLong("owner");
+            successEmoji = config.getString("success");
+            warningEmoji = config.getString("warning");
+            errorEmoji = config.getString("error");
+            loadingEmoji = config.getString("loading");
+            searchingEmoji = config.getString("searching");
+            game = config.getString("game");
+            status = OtherUtil.parseStatus(config.getString("status"));
+            stayInChannel = config.getBoolean("stayinchannel");
+            songInGame = config.getBoolean("songinstatus");
+            npImages = config.getBoolean("npimages");
+            updatealerts = config.getBoolean("updatealerts");
+            useEval = config.getBoolean("eval");
+            maxSeconds = config.getLong("maxtime");
+            aloneTimeUntilStop = config.getLong("alonetimeuntilstop");
+            playlistsFolder = config.getString("playlistsfolder");
+            aliases = config.getConfig("aliases");
+            transforms = config.getConfig("transforms");
+            dbots = owner == 113156185389092864L;
+            
+            // if we get through the whole config, it's good to go
+            valid = true;
+        }
+        catch (ConfigException ex)
+        {
+            prompt.alert(Prompt.Level.ERROR, CONTEXT, ex + ": " + ex.getMessage() + "\n\nConfig Location: " + path.toAbsolutePath().toString());
+        }
+    }
     
     public void load()
     {

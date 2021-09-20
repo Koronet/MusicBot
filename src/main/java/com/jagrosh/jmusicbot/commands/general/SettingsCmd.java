@@ -55,16 +55,16 @@ public class SettingsCmd extends Command
         Role role = s.getRole(event.getGuild());
         EmbedBuilder ebuilder = new EmbedBuilder()
                 .setColor(event.getSelfMember().getColor())
-                .setDescription("Text Channel: " + (tchan == null ? "Any" : "**#" + tchan.getName() + "**")
-                        + "\nVoice Channel: " + (vchan == null ? "Any" : "**" + vchan.getName() + "**")
-                        + "\nDJ Role: " + (role == null ? "None" : "**" + role.getName() + "**")
-                        + "\nCustom Prefix: " + (s.getPrefix() == null ? "None" : "`" + s.getPrefix() + "`")
-                        + "\nRepeat Mode: **" + (s.getRepeatMode() ? "On" : "Off") + "**"
-                        + "\nDefault Playlist: " + (s.getDefaultPlaylist() == null ? "None" : "**" + s.getDefaultPlaylist() + "**")
+                .setDescription("テキストチャンネル: " + (tchan == null ? "全てのチャンネル" : "**#" + tchan.getName() + "**")
+                        + "\nボイスチャンネル: " + (vchan == null ? "全てのチャンネル" : "**" + vchan.getName() + "**")
+                        + "\nDJ役職: " + (role == null ? "なし" : "**" + role.getName() + "**")
+                        + "\nプレフィックス: " + (s.getPrefix() == null ? "なし" : "`" + s.getPrefix() + "`")
+                        + "\n繰り返しモード: **" + (s.getRepeatMode() ? "オン" : "オフ") + "**"
+                        + "\nプレイリスト: " + (s.getDefaultPlaylist() == null ? "なし" : "**" + s.getDefaultPlaylist() + "**")
                         )
-                .setFooter(event.getJDA().getGuilds().size() + " servers | "
+                .setFooter(event.getJDA().getGuilds().size() + "サーバーで作動中 | "
                         + event.getJDA().getGuilds().stream().filter(g -> g.getSelfMember().getVoiceState().inVoiceChannel()).count()
-                        + " audio connections", null);
+                        + "サーバーに接続中", null);
         event.getChannel().sendMessage(builder.setEmbed(ebuilder.build()).build()).queue();
     }
     
